@@ -90,8 +90,12 @@ export const CANAIS = {
   },
   "Influenciadores": {
     classe: "Confiança", horizonte: "medio",
+    // Influenciadores também são um ambiente de DESCOBERTA: mostram produtos
+    // novos, surpreendentes e divertidos (unboxing, "olha isso", tendências).
+    // Os artigos listam "Cama na caixa" como caso top de influenciador.
     matriz: { confianca: 10, prova_social: 9, aspiracao: 9, status: 8, identidade: 8,
-      comunidade: 8, transformacao: 8, descoberta: 7, tendencia: 7, reputacao: 7 },
+      comunidade: 8, transformacao: 8, surpresa: 8, descoberta: 7, tendencia: 7,
+      inovacao: 7, curiosidade: 7, reputacao: 7, entretenimento: 6 },
   },
   "LinkedIn": {
     classe: "Autoridade", horizonte: "medio",
