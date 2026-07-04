@@ -6,7 +6,7 @@
  *   - gerarStandalone(): documento HTML completo e autossuficiente (para download)
  */
 
-import { MOTOR_LABEL, MOTORES } from "./engine.js";
+import { MOTOR_LABEL, MOTORES, CANAIS } from "./engine.js";
 
 function e(s) {
   return String(s ?? "").replace(/[&<>"']/g, (c) => (
@@ -137,6 +137,65 @@ const CTX_LABELS = {
   surpresa: "Surpresa", dor_desejo: "Dor↔Desejo", potencial_organico: "Pot. orgânico",
 };
 
+// Essência de cada canal: o ambiente psicológico que ele representa.
+const CANAL_ESSENCIA = {
+  "Google (SEO)": "ambiente de busca ativa, onde a pessoa já procura a solução e compara opções",
+  "Google Ads": "ambiente de busca com intenção imediata de compra",
+  "Google Maps": "ambiente de descoberta local por proximidade e reputação",
+  "Meta Ads": "ambiente de descoberta paga em escala, que transforma desejo em demanda",
+  "Instagram Orgânico": "vitrine de aspiração e transformação visual",
+  "TikTok": "ambiente de descoberta viral e curiosidade — o feed do \u201cnunca vi isso antes\u201d",
+  "YouTube": "ambiente de educação e autoridade em formato longo",
+  "Influenciadores": "ambiente de confiança e prova social, onde alguém demonstra e valida o produto",
+  "LinkedIn": "ambiente de autoridade profissional e relações B2B",
+  "WhatsApp / Indicações": "ambiente de conversão por confiança e boca a boca",
+  "Podcasts": "ambiente de autoridade e conexão em profundidade",
+};
+
+// Lista os motores do produto que mais contribuem para o score do canal.
+function motoresQueMaisPesam(canal, produto, n = 3) {
+  const matriz = CANAIS[canal].matriz;
+  const contribs = [];
+  for (const [motor, peso] of Object.entries(produto.motores)) {
+    let score = matriz[motor];
+    if (score === undefined && motor === "autoestima") score = matriz["transformacao"] ?? 0;
+    score = score ?? 0;
+    if (score > 0) contribs.push([motor, peso * score]);
+  }
+  contribs.sort((a, b) => b[1] - a[1]);
+  return contribs.slice(0, n).map(([m]) => MOTOR_LABEL[m] || m);
+}
+
+function listaNatural(arr) {
+  if (arr.length === 0) return "os motores centrais deste produto";
+  if (arr.length === 1) return `<b>${e(arr[0])}</b>`;
+  const ini = arr.slice(0, -1).map((x) => `<b>${e(x)}</b>`).join(", ");
+  return `${ini} e <b>${e(arr[arr.length - 1])}</b>`;
+}
+
+function explicarCanal(canalObj, produto) {
+  const essencia = CANAL_ESSENCIA[canalObj.canal] || "um ambiente psicológico específico";
+  const motores = motoresQueMaisPesam(canalObj.canal, produto);
+  return `É ${essencia}. Neste produto, ele ativa sobretudo ${listaNatural(motores)} — os motores que mais pesam aqui.`;
+}
+
+function blocoTop3(res) {
+  const cards = res.rankingPotencial.slice(0, 3).map((c, i) => `
+      <div class="top3-card">
+        <div class="top3-head">
+          <span class="top3-pos medal-${i + 1}">${i + 1}</span>
+          <span class="top3-nome">${e(c.canal)}</span>
+          <span class="top3-score" style="color:${cor(c.potencial)}">${g(c.potencial)}</span>
+        </div>
+        <p class="top3-why">${explicarCanal(c, res.produto)}</p>
+      </div>`).join("");
+  return `
+    <div class="panel">
+      <h3>Por que os 3 canais de maior potencial? <span class="h3-sub">o ambiente e os motores que cada um ativa</span></h3>
+      <div class="top3-grid">${cards}</div>
+    </div>`;
+}
+
 export function renderSecao(res, idx = 1) {
   const p = res.produto;
   const topCanal = res.rankingPotencial[0];
@@ -188,6 +247,8 @@ export function renderSecao(res, idx = 1) {
       <h3>2 · Ranking de Potencial <span class="h3-sub">o que deveria funcionar (verdade psicológica)</span></h3>
       <div class="ranking">${tabelaRanking(res.rankingPotencial, "potencial", cor)}</div>
     </div>
+
+    ${blocoTop3(res)}
 
     <div class="panel">
       <h3>3 · Matriz de Potencial <span class="h3-sub">compatibilidade × contexto</span></h3>
@@ -315,6 +376,16 @@ table.matriz tr:hover td{background:rgba(56,189,248,.04)}
 .chip{background:#0a1224;border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-size:13px;display:flex;align-items:center;gap:8px}
 .chip-val{background:var(--border);border-radius:6px;padding:1px 7px;font-size:11px;color:var(--text);font-weight:700}
 .chip-empty{color:var(--muted);font-size:13px;font-style:italic}
+.top3-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.top3-card{background:#0a1224;border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+.top3-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.top3-pos{width:24px;height:24px;border-radius:7px;background:#111c33;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);border:1px solid var(--border);flex:0 0 auto}
+.top3-pos.medal-1{background:#facc15;color:#3b2f00;border-color:#facc15}
+.top3-pos.medal-2{background:#cbd5e1;color:#1e293b;border-color:#cbd5e1}
+.top3-pos.medal-3{background:#d97706;color:#fff;border-color:#d97706}
+.top3-nome{font-weight:700;font-size:15px;flex:1}
+.top3-score{font-weight:800;font-size:16px}
+.top3-why{margin:0;font-size:13px;color:#cbd5e1;line-height:1.55}
 .contexto-panel{background:transparent}
 .contexto-tags{display:flex;flex-wrap:wrap;gap:8px}
 .ctx-tag{display:flex;flex-direction:column;background:#0a1224;border:1px solid var(--border);border-radius:10px;padding:6px 12px}
@@ -324,5 +395,5 @@ table.matriz tr:hover td{background:rgba(56,189,248,.04)}
 .legenda b{color:var(--text)}
 .legenda .row{margin:4px 0}
 footer{text-align:center;color:var(--muted);font-size:13px;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)}
-@media(max-width:900px){.cards-row{grid-template-columns:repeat(2,1fr)}.rank-grid,.estrategia-grid{grid-template-columns:1fr}.motor-row{grid-template-columns:140px 1fr 30px}}
+@media(max-width:900px){.cards-row{grid-template-columns:repeat(2,1fr)}.rank-grid,.estrategia-grid,.top3-grid{grid-template-columns:1fr}.motor-row{grid-template-columns:140px 1fr 30px}}
 `;
