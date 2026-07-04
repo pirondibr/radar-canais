@@ -1,0 +1,13 @@
+# Nunca versionar segredos
+*.key
+.env
+.env.*
+secrets.*
+
+# Artefatos locais
+*.log
+.DS_Store
+Thumbs.db
+
+# Relatórios baixados
+radar-*.html

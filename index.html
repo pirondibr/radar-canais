@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Radar de Canais Potenciais</title>
+  <meta name="description" content="Descubra os canais de marketing com maior potencial para o seu produto usando a Teoria dos Motores Psicológicos." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-hero">
+    <div class="wrap">
+      <div class="eyebrow">Fórmula de Potencial de Canais</div>
+      <h1>Radar de Canais Potenciais</h1>
+      <p class="lead">
+        As pessoas não compram produtos — compram <b>motores psicológicos</b>.
+        Descreva seu produto e a IA identifica os motores e o contexto; o motor de
+        cálculo revela o <b>Potencial</b> de cada canal — qual ambiente é
+        naturalmente mais forte para o desejo que está sendo vendido.
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Configuração da API -->
+    <section class="card config" id="config">
+      <div class="card-head">
+        <h2>Configuração</h2>
+        <span class="badge" id="keyStatus">Chave não configurada</span>
+      </div>
+
+      <div class="field">
+        <label for="apiKey">Chave da API OpenRouter</label>
+        <div class="key-row">
+          <input type="password" id="apiKey" placeholder="sk-or-v1-..." autocomplete="off" spellcheck="false" />
+          <button type="button" class="btn-ghost" id="toggleKey" title="Mostrar/ocultar">👁</button>
+        </div>
+        <small class="hint">
+          A chave fica salva <b>apenas no seu navegador</b> (localStorage) e é enviada
+          direto ao OpenRouter. Nunca é gravada no site.
+          Gere a sua em <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>.
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="modelo">Modelo Claude</label>
+        <select id="modelo"></select>
+      </div>
+    </section>
+
+    <!-- Formulário do produto -->
+    <section class="card">
+      <div class="card-head"><h2>Descreva o produto</h2></div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="empresa">Empresa / tipo de negócio <span class="req">*</span></label>
+          <input type="text" id="empresa" placeholder="Ex.: Clínica odontológica" />
+        </div>
+        <div class="field">
+          <label for="produto">Produto / serviço <span class="req">*</span></label>
+          <input type="text" id="produto" placeholder="Ex.: Harmonização facial" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="descricao">Descrição detalhada <span class="req">*</span></label>
+        <textarea id="descricao" rows="6" placeholder="Explique o que é vendido, quem compra, qual problema resolve ou desejo atende, faixa de preço, região de atuação, o que o cliente sente antes e depois... Quanto mais detalhe, melhor a análise."></textarea>
+        <small class="hint">Este é o campo mais importante. A IA usa tudo isso para inferir os motores psicológicos e o contexto.</small>
+      </div>
+
+      <details class="opcionais">
+        <summary>Campos opcionais (ajudam a IA a ser mais precisa)</summary>
+        <div class="grid-2">
+          <div class="field">
+            <label for="publico">Público-alvo</label>
+            <input type="text" id="publico" placeholder="Ex.: mulheres 30-50 anos, classe A/B" />
+          </div>
+          <div class="field">
+            <label for="ticket">Faixa de preço / ticket</label>
+            <input type="text" id="ticket" placeholder="Ex.: R$ 2.500 a R$ 6.000" />
+          </div>
+          <div class="field">
+            <label for="regiao">Região de atuação</label>
+            <input type="text" id="regiao" placeholder="Ex.: cidade / estado / nacional" />
+          </div>
+          <div class="field">
+            <label for="extra">Observações extras</label>
+            <input type="text" id="extra" placeholder="Ex.: concorrência forte no Instagram" />
+          </div>
+        </div>
+      </details>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" id="analisar">Analisar canais</button>
+        <button type="button" class="btn-ghost" id="exemplo">Preencher exemplo</button>
+        <span class="spinner" id="spinner" hidden></span>
+        <span class="status-msg" id="statusMsg"></span>
+      </div>
+    </section>
+
+    <!-- Resultado -->
+    <section id="resultadoWrap" hidden>
+      <div class="result-bar">
+        <div class="result-count" id="resultCount"></div>
+        <div class="result-actions">
+          <button type="button" class="btn-ghost" id="limpar">Limpar</button>
+          <button type="button" class="btn-primary" id="download">⬇ Baixar relatório (HTML)</button>
+        </div>
+      </div>
+      <div id="relatorio"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      Metodologia: Algoritmo Universal de Compatibilidade de Canais (Artigos 1–9) ·
+      Cálculo determinístico + inferência via Claude (OpenRouter).
+    </div>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
