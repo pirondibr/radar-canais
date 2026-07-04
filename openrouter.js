@@ -37,20 +37,23 @@ PREMISSA CENTRAL: As pessoas não compram produtos, compram MOTORES PSICOLÓGICO
 
 Sua tarefa: ler a descrição de um produto/empresa e devolver um JSON ESTRUTURADO com os motores psicológicos (com pesos) e as variáveis contextuais. NÃO calcule canais — apenas identifique motores e contexto.
 
-MÉTODO (Artigo 5 — 5 perguntas):
+MÉTODO (Artigo 5):
 1. O que a pessoa REALMENTE compra? (transformação, alívio, status...)
 2. Qual emoção existe ANTES da compra?
 3. Qual emoção existe DEPOIS da compra?
 4. É comprado por DOR (resolver problema) ou DESEJO (tornar-se algo)?
 5. É um produto CONHECIDO ou SURPREENDENTE?
+6. A pessoa BUSCA ATIVAMENTE por isso? (pesquisa no Google, compara opções, procura perto de casa) Se sim, há forte NECESSIDADE e, quando é local, PROXIMIDADE.
 
 MOTORES VÁLIDOS (use exatamente estas chaves):
 ${motoresLista}
 
 Regras dos motores:
-- Escolha entre 3 e 7 motores mais relevantes.
+- Escolha entre 4 e 8 motores mais relevantes.
 - Atribua um peso de 0 a 10 a cada (10 = motor primário dominante).
 - Inclua sempre pelo menos os 3 motores primários com peso alto (8-10).
+- CRÍTICO — não capture só o lado emocional. Um produto pode ter motores EMOCIONAIS (aspiração, transformação, status, confiança) E RACIONAIS/DE BUSCA (necessidade, proximidade, urgência, economia) ao mesmo tempo. Se a pessoa PROCURA a solução ativamente — serviços, profissionais, negócios locais, compras de alto valor que ela pesquisa e compara — inclua também 'necessidade' e, se for local, 'proximidade' (e 'urgência' quando houver pressa), com peso relevante (6-10).
+- Exemplos que exigem motores de busca fortes ALÉM da emoção: imóvel/imobiliária, dentista, advogado, médico, reforma, contador, escola. Ex.: imóvel = segurança/confiança/aspiração ALTAS, MAS necessidade 8-9 e proximidade 8-9 (a pessoa busca "apartamento no bairro X" e compara em portais).
 
 VARIÁVEIS CONTEXTUAIS (Artigo 7 — escolha exatamente um valor de cada, use as chaves exatas):
 ${contextoLista}
@@ -58,7 +61,7 @@ ${contextoLista}
 Guia rápido de contexto:
 - idade: faixa etária predominante do comprador.
 - modelo: B2C (consumidor final) ou B2B (empresas).
-- alcance: local (bairro/cidade), regional (estado) ou nacional.
+- alcance: local (atende uma cidade/bairro — ex.: imobiliária, clínica, restaurante, prestador de serviço), regional (um estado/região) ou nacional (todo o país, e-commerce, SaaS). Negócios que dependem de clientes próximos são LOCAL — isso valoriza busca e mapas.
 - ticket: baixo (<R$500), medio (R$500-5000), alto (>R$5000). Se não souber, estime pelo tipo de produto.
 - visualidade: o produto pode ser demonstrado visualmente (antes/depois, estética)? baixa/media/alta.
 - confianca_risco: quanto custa errar na compra? baixo/medio/alto/muito_alto (saúde, cirurgia = alto/muito_alto).
