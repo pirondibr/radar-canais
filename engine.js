@@ -146,8 +146,11 @@ export const CONTEXTO_MULT = {
     B2B: { "Google (SEO)": 1.20, "Google Ads": 1.15, "LinkedIn": 1.60, "Podcasts": 1.20, "TikTok": 0.45, "Instagram Orgânico": 0.75 },
   },
   alcance: {
-    local:    { "Google Maps": 1.60, "Google (SEO)": 1.20, "Google Ads": 1.15, "WhatsApp / Indicações": 1.25, "Meta Ads": 1.05, "TikTok": 0.80 },
-    regional: { "Google Maps": 1.20, "Meta Ads": 1.10, "Google Ads": 1.10, "Instagram Orgânico": 1.05 },
+    // Busca paga geograficamente segmentada é um dos ambientes mais fortes para
+    // captar intenção local imediata (ex.: imobiliária, clínica). Por isso o Ads
+    // recebe forte bônus em 'local' — perde só para o Maps (proximidade pura).
+    local:    { "Google Maps": 1.60, "Google Ads": 1.40, "Google (SEO)": 1.20, "WhatsApp / Indicações": 1.25, "Meta Ads": 1.05, "TikTok": 0.80 },
+    regional: { "Google Maps": 1.20, "Google Ads": 1.20, "Meta Ads": 1.10, "Instagram Orgânico": 1.05 },
     nacional: { "Google Maps": 0.20, "Meta Ads": 1.20, "TikTok": 1.25, "Instagram Orgânico": 1.15, "YouTube": 1.10 },
   },
   ticket: {
