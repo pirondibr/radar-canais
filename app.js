@@ -86,8 +86,8 @@ async function onAnalisar() {
   const descricao = $("descricao").value.trim();
 
   if (!apiKey) return setStatus("Configure sua chave da API OpenRouter primeiro.", "error");
-  if (!empresa || !produto || !descricao) {
-    return setStatus("Preencha empresa, produto e a descrição detalhada.", "error");
+  if (!empresa || !produto) {
+    return setStatus("Preencha ao menos a empresa e o produto.", "error");
   }
 
   const descricaoUsuario = montarDescricao();
@@ -125,8 +125,9 @@ function montarDescricao() {
   const partes = [
     `Empresa: ${$("empresa").value.trim()}`,
     `Produto: ${$("produto").value.trim()}`,
-    `Descrição: ${$("descricao").value.trim()}`,
   ];
+  const descricao = $("descricao").value.trim();
+  if (descricao) partes.push(`Descrição: ${descricao}`);
   const publico = $("publico").value.trim();
   const ticket = $("ticket").value.trim();
   const regiao = $("regiao").value.trim();
